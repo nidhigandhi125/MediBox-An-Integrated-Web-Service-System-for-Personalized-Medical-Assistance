@@ -1,0 +1,109 @@
+
+{% extends "layout.html" %}
+
+{% block head %}
+<meta charset="UTF-8" xmlns="http://www.w3.org/1999/html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Medibox</title>
+    <meta name="author" content="name">
+    <meta name="description" content="description here">
+    <meta name="keywords" content="keywords,here">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/> <!--Replace with your tailwind.css once created-->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
+<!--    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!--    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/prescription.css')}}">
+   <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
+   <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+
+{% endblock %}
+
+{% block content %}
+
+
+
+ <div class="bg-gray-800 pt-3">
+
+                    <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold pl-2">Prescription
+                                <label class="btn btn-primary "  style="float:right; padding-right:20px">
+                                </label>
+                        </h1>
+                    </div>
+</div>
+
+<div class="blog-slider">
+
+  <div class="blog-slider__wrp swiper-wrapper">
+      {% for doctor in drName %}
+    {%  set addr = doctor.address.replace(' ','+') %}
+    <div class="blog-slider__item swiper-slide">
+        <div class = "googlemap">
+          <div class="mapouter">
+              <div class="gmap_canvas">
+                  <iframe width="300" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q={{addr}}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                  <br>
+                  <style>.mapouter{position:relative;text-align:right;height:300px;width:300px;}</style>\
+                  <style>.gmap_canvas {overflow:hidden;background:none!important;height:300px;width:300px;}</style>
+              </div>
+          </div>
+        </div>
+
+      <div class="blog-slider__content">
+          <span class="blog-slider__code">{{doctor.prescription_date}}</span>
+        <div class="blog-slider__title">Dr. {{doctor.dr_name}}</div>
+        <div class="blog-slider__text">Contact No.: {{doctor.dr_num}} <br>
+            Diagnosis: {{doctor.diagnosis}} <br>
+            Address: {{doctor.address}} <br>
+            Drugs: {% for drg  in doctor.drugs[1:-1].split(" ") %}
+                         {{drg[1:-1]}}
+                         {% endfor %}
+        </div>
+        <a href=static\\uploads\\{{doctor.image_name}}" class="blog-slider__button" download="{{doctor.image_name}}"> Download </a> <a href="https://maps.google.com/maps?q={{addr}}" class="blog-slider__button" target="_blank">Get Direction</a>
+      </div>
+    </div>
+      {% endfor %}
+  </div>
+  <div class="blog-slider__pagination"></div>
+
+</div>
+
+  <script>
+    var swiper = new Swiper('.blog-slider', {
+      autoplay: {
+        delay: 5000,
+      },
+      spaceBetween: 30,
+       effect: 'coverflow',
+      coverflowEffect: {
+        rotate: 30,
+        slideShadows: true,
+        modifier: 2,
+        depth: 0,
+      },
+
+      loop: true,
+      mousewheel: {
+        invert: false,
+      },
+      // autoHeight: true,
+      pagination: {
+        el: '.blog-slider__pagination',
+        type: 'fraction',
+        clickable: true,
+        dynamicBullets: true,
+      }
+    });
+
+</script>
+
+  {% endblock content %}
+
+

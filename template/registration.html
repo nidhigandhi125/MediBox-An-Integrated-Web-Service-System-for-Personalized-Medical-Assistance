@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Animated Login Form</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/login.css')}}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class="container">
+		<div class="img">
+			<img src="static/images/bg.svg">
+		</div>
+		<div class="login-content">
+        <form action="#" method="POST">
+            <div id="page_1">
+
+                    <h2 class="title" >Registration</h2>
+                    <div class="input-div one">
+                        <div class="i">
+                                <i class="fas fa-user"></i>
+                        </div>
+                        <div class="div">
+                                <h5>Name</h5>
+                                <input type="text" class="input" name="name">
+                        </div>
+                        </div>
+                    <div class="input-div one">
+                    <div class="i">
+                            <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="div">
+                            <h5>Email</h5>
+                            <input type="text" class="input" name="email">
+                    </div>
+                    </div>
+                    <div class="input-div pass">
+                    <div class="i">
+                            <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                            <h5>Password</h5>
+                            <input type="password" class="input" name="password">
+                    </div>
+                    </div>
+                    <div class="input-div con_pass">
+                        <div class="i">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="div">
+                            <h5>Confirm Password</h5>
+                            <input type="password" class="input" name="password_cnf">
+                    </div>
+                    </div>
+
+                    <a href="{{url_for('login')}}" style="align-items:centre"> Already a member? </a>
+                    <button type="button" class="btn" id="next_btn" value="Next">Next</button>
+            </div>
+            <div id="page_2">
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-solid fa-phone"></i>
+                    </div>
+                    <div class="div">
+                        <h5>Mobile</h5>
+                        <input type="tel" class="input" maxlength="12" name="mobile">
+                    </div>
+                </div>
+                    <div class="input-div pass">
+                        <div class="i">
+                            <i class="fas fa-solid fa-baby"></i>
+                        </div>
+                        <div class="div">
+                        <h5>Birthday</h5>
+                        <input type="date" class="input" id="date" name="dob">
+                        </div>
+                    </div>
+                    <div class="input-div pass">
+                        <div class="i">
+                            <i class="fas fa-solid fa-ruler-vertical"></i>
+                        </div>
+                        <div class="div">
+                            <h5>Gender : &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            <input type="radio" name="gender" value="male"> Male &nbsp &nbsp
+                            <input type="radio" name="gender" value="female"> Female</h5>
+                        </div>
+                    </div>
+                    <a href="{{url_for('login')}}" style="align-items:centre"> Already a member? </a>
+                    <button type="button" class="btn" id="back_btn" value="Back" style="float: left;">Back</button>
+                    <button type="submit" class="btn" value="registration" id="reg" style="margin-left: 5cm;">Submit</button>
+            <div>
+
+                </form>
+        </div>
+    </div>
+</body>
+    <script>
+        const inputs = document.querySelectorAll(".input");
+        function addcl(){
+            let parent = this.parentNode.parentNode;
+            parent.classList.add("focus");
+        }
+
+        function remcl(){
+            let parent = this.parentNode.parentNode;
+            if(this.value == ""){
+                parent.classList.remove("focus");
+            }
+        }
+
+
+        inputs.forEach(input => {
+            input.addEventListener("focus", addcl);
+            input.addEventListener("blur", remcl);
+        });
+
+                const page_1 = document.getElementById('page_1');
+                const page_2 = document.getElementById('page_2');
+
+                var nxt_btn= document.getElementById('next_btn');
+
+                nxt_btn.addEventListener('click', function handleClick()
+                {
+                        console.log("heloo");
+                        page_2.style.display = 'block';
+                        page_1.style.display = 'none';
+
+                });
+                back_btn.addEventListener('click', function handleClick()
+                {
+                    page_2.style.display = 'none';
+                    page_1.style.display = 'block'
+                });
+    </script>
+</body>
+</html>

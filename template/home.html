@@ -1,0 +1,441 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<meta charset="UTF-8" xmlns="http://www.w3.org/1999/html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Medibox Dashboard</title>
+    <meta name="author" content="name">
+    <meta name="description" content="description here">
+    <meta name="keywords" content="keywords,here">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/> <!--Replace with your tailwind.css once created-->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
+<!--    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/model.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/innermodel.css')}}">
+{% endblock %}
+
+{% block content %}
+
+ <div class="bg-gray-800 pt-3">
+
+                    <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold pl-2">Prescription
+
+                                <label class="btn btn-primary "  style="float:right; padding-right:20px">
+                                    <button class="fa fa-solid fa-plus" data-modal-target="#modal"></button>
+<!--                                    <button data-modal-target="#modal">Open Modal</button>-->
+                                         <div class="modal" id="modal">
+                                            <div class="modal-header">
+                                              <div class="title" style="color:#6990F2">Upload Image</div>
+                                              <button data-close-button class="close-button" style="color:#6990F2">&times;</button>
+                                            </div>
+                                                <div class="modal-body">
+                                                    <div class="wrapper">
+                                                        <form action="{{url_for('upload')}}"  id="upload" method="POST" enctype="multipart/form-data">
+
+
+                                                            <div style = "color: black; font-size: 16px">
+                                                                <label>Diagnosis:</label>
+                                                                &nbsp
+                                                                <input type="text" name="diagnosis" class="diagnosis" style = "border: dashed 2px #6990F2"><br>
+                                                            </div>
+                                                            <br><br><br>
+<!--                                                            <input class="file-input" type="file" name="uploadFile" id="uploadFile"  accept=".jpg, .png, .jpeg"  hidden >-->
+                                                                <input class="file-input" type="file" name="image" id="uploadFile"  style="position : absolute; margin-left: 40%;height: 31%;font-size: 61%; color:black;">
+                                                                <i class="fas fa-cloud-upload-alt" style = "margin-top: 25%"></i></input>
+                                                                <p style="color:#6990F2">Drag and Drop or Browse the image</p>
+                                                            <br>
+                                                            <br>
+
+
+                                                        </form>
+                                                          <div class="form-group">
+<!--                                                              <button type="submit"  ">-->
+                                                            <button type="button" value="upload" class="btn_upload" onclick="!this.form && document.getElementById('upload').submit()">Upload</button>
+<!--                                                            <button type="submit" class="btn" value="registration" id="reg" style="margin-left: 5cm;">Submit</button>-->
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                         </div>
+
+<!--                                      <button data-modal-target="#modal">Open Modal</button>-->
+<!--  <div class="modal" id="modal">-->
+<!--    <div class="modal-header" style="color:black ">-->
+<!--      <div class="title">Example Modal</div>-->
+<!--      <button data-close-button class="close-button">&times;</button>-->
+<!--    </div>-->
+<!--    <div class="modal-body" style="color:black ">-->
+<!--      Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quod alias ut illo doloremque eum ipsum obcaecati distinctio debitis reiciendis quae quia soluta totam doloribus quos nesciunt necessitatibus, consectetur quisquam accusamus ex, dolorum, dicta vel? Nostrum voluptatem totam, molestiae rem at ad autem dolor ex aperiam. Amet assumenda eos architecto, dolor placeat deserunt voluptatibus tenetur sint officiis perferendis atque! Voluptatem maxime eius eum dolorem dolor exercitationem quis iusto totam! Repudiandae nobis nesciunt sequi iure! Eligendi, eius libero. Ex, repellat sapiente!-->
+<!--    </div>-->
+<!--  </div>-->
+  <div id="overlay"></div>
+
+                                </label>
+
+                        </h1>
+                    </div>
+</div>
+ {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+            {% for msg in msgs %}
+                <p style="color: #375234; border:1px solid #375234;">{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<div class=" flex flex-wrap">
+
+<!--                    <div class = " w-full md:w-1/2 xl:w-1/3 p-6" style="margin-left: -6px">-->
+                    <div class=" w-full md:w-1/2 xl:w-1/3 p-6">
+                        <!--Metric Card-->
+                        {% for cnt, name, num in query1 %}
+                        <a href="{{url_for('dr_name', dr_name = name )}}">
+                        <div class="bg-gradient-to-b from-pink-200 to-pink-100 border-b-4 border-pink-500 rounded-lg shadow-xl p-5">
+                            <div class="flex flex-row items-center">
+                                <div class="flex-shrink pr-4">
+                                    <div class="rounded-full p-5 bg-green-600"><i class="fa fa-wallet fa-2x fa-inverse"></i></div>
+                                </div>
+                                <div class="flex-1 text-right md:text-center">
+                                    <h2 class="font-bold uppercase text-gray-600">Dr.{{name}}</h2>
+                                   <p class="font-bold">{{num}}<span class="text-green-500 rounded-lg shadow-xl p-2" style="margin-left:20px ; font-size:x-large ;" >{{cnt}}</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <!--/Metric Card-->
+                    </div>
+                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+                    {% endfor %}
+                        <!--Metric Card-->
+<!--                        <div class="bg-gradient-to-b from-pink-200 to-pink-100 border-b-4 border-pink-500 rounded-lg shadow-xl p-5">-->
+<!--                            <div class="flex flex-row items-center">-->
+<!--                                <div class="flex-shrink pr-4">-->
+<!--                                    <div class="rounded-full p-5 bg-pink-600"><i class="fas fa-users fa-2x fa-inverse"></i></div>-->
+<!--                                </div>-->
+<!--                                <div class="flex-1 text-right md:text-center">-->
+<!--                                    <h2 class="font-bold uppercase text-gray-600">Total Users</h2>-->
+<!--                                    <p class="font-bold text-3xl">249 <span class="text-pink-500"><i class="fas fa-exchange-alt"></i></span></p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <!--/Metric Card-->
+                    </div>
+<!--                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">-->
+<!--                        &lt;!&ndash;Metric Card&ndash;&gt;-->
+<!--                        <div class="bg-gradient-to-b from-yellow-200 to-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-xl p-5">-->
+<!--                            <div class="flex flex-row items-center">-->
+<!--                                <div class="flex-shrink pr-4">-->
+<!--                                    <div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-user-plus fa-2x fa-inverse"></i></div>-->
+<!--                                </div>-->
+<!--                                <div class="flex-1 text-right md:text-center">-->
+<!--                                    <h2 class="font-bold uppercase text-gray-600">New Users</h2>-->
+<!--                                    <p class="font-bold text-3xl">2 <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;/Metric Card&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">-->
+<!--                        &lt;!&ndash;Metric Card&ndash;&gt;-->
+<!--                        <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-500 rounded-lg shadow-xl p-5">-->
+<!--                            <div class="flex flex-row items-center">-->
+<!--                                <div class="flex-shrink pr-4">-->
+<!--                                    <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-server fa-2x fa-inverse"></i></div>-->
+<!--                                </div>-->
+<!--                                <div class="flex-1 text-right md:text-center">-->
+<!--                                    <h2 class="font-bold uppercase text-gray-600">Server Uptime</h2>-->
+<!--                                    <p class="font-bold text-3xl">152 days</p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;/Metric Card&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">-->
+<!--                        &lt;!&ndash;Metric Card&ndash;&gt;-->
+<!--                        <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-500 rounded-lg shadow-xl p-5">-->
+<!--                            <div class="flex flex-row items-center">-->
+<!--                                <div class="flex-shrink pr-4">-->
+<!--                                    <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-tasks fa-2x fa-inverse"></i></div>-->
+<!--                                </div>-->
+<!--                                <div class="flex-1 text-right md:text-center">-->
+<!--                                    <h2 class="font-bold uppercase text-gray-600">To Do List</h2>-->
+<!--                                    <p class="font-bold text-3xl">7 tasks</p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;/Metric Card&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">-->
+<!--                        &lt;!&ndash;Metric Card&ndash;&gt;-->
+<!--                        <div class="bg-gradient-to-b from-red-200 to-red-100 border-b-4 border-red-500 rounded-lg shadow-xl p-5">-->
+<!--                            <div class="flex flex-row items-center">-->
+<!--                                <div class="flex-shrink pr-4">-->
+<!--                                    <div class="rounded-full p-5 bg-red-600"><i class="fas fa-inbox fa-2x fa-inverse"></i></div>-->
+<!--                                </div>-->
+<!--                                <div class="flex-1 text-right md:text-center">-->
+<!--                                    <h2 class="font-bold uppercase text-gray-600">Issues</h2>-->
+<!--                                    <p class="font-bold text-3xl">3 <span class="text-red-500"><i class="fas fa-caret-up"></i></span></p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;/Metric Card&ndash;&gt;-->
+<!--                    </div>-->
+                </div>
+
+
+<div class="flex flex-row flex-wrap flex-grow mt-2">
+
+                <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+                    <!--Graph Card-->
+                    <div class="bg-white border-transparent rounded-lg shadow-xl">
+                        <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
+                            <h class="font-bold uppercase text-gray-600">Graph</h>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="chartjs-7" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <script>
+                                new Chart(document.getElementById("chartjs-7"), {
+                                    "type": "bar",
+                                    "data": {
+                                        "labels": ["January", "February", "March", "April"],
+                                        "datasets": [{
+                                            "label": "Page Impressions",
+                                            "data": [10, 20, 30, 40],
+                                            "borderColor": "rgb(255, 99, 132)",
+                                            "backgroundColor": "rgba(255, 99, 132, 0.2)"
+                                        }, {
+                                            "label": "Adsense Clicks",
+                                            "data": [5, 15, 10, 30],
+                                            "type": "line",
+                                            "fill": false,
+                                            "borderColor": "rgb(54, 162, 235)"
+                                        }]
+                                    },
+                                    "options": {
+                                        "scales": {
+                                            "yAxes": [{
+                                                "ticks": {
+                                                    "beginAtZero": true
+                                                }
+                                            }]
+                                        }
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Graph Card-->
+                </div>
+
+                <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+                    <!--Graph Card-->
+                    <div class="bg-white border-transparent rounded-lg shadow-xl">
+                        <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
+                            <h2 class="font-bold uppercase text-gray-600">Graph</h2>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="chartjs-0" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <script>
+                                new Chart(document.getElementById("chartjs-0"), {
+                                    "type": "line",
+                                    "data": {
+                                        "labels": ["January", "February", "March", "April", "May", "June", "July"],
+                                        "datasets": [{
+                                            "label": "Views",
+                                            "data": [65, 59, 80, 81, 56, 55, 40],
+                                            "fill": false,
+                                            "borderColor": "rgb(75, 192, 192)",
+                                            "lineTension": 0.1
+                                        }]
+                                    },
+                                    "options": {}
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Graph Card-->
+                </div>
+
+                <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+                    <!--Graph Card-->
+                    <div class="bg-white border-transparent rounded-lg shadow-xl">
+                        <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
+                            <h2 class="font-bold uppercase text-gray-600">Graph</h2>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="chartjs-1" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <script>
+                                new Chart(document.getElementById("chartjs-1"), {
+                                    "type": "bar",
+                                    "data": {
+                                        "labels": ["January", "February", "March", "April", "May", "June", "July"],
+                                        "datasets": [{
+                                            "label": "Likes",
+                                            "data": [65, 59, 80, 81, 56, 55, 40],
+                                            "fill": false,
+                                            "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"],
+                                            "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
+                                            "borderWidth": 1
+                                        }]
+                                    },
+                                    "options": {
+                                        "scales": {
+                                            "yAxes": [{
+                                                "ticks": {
+                                                    "beginAtZero": true
+                                                }
+                                            }]
+                                        }
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Graph Card-->
+                </div>
+
+                <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+                    <!--Graph Card-->
+                    <div class="bg-white border-transparent rounded-lg shadow-xl">
+                        <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
+                            <h5 class="font-bold uppercase text-gray-600">Graph</h5>
+                        </div>
+                        <div class="p-5"><canvas id="chartjs-4" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <script>
+                                new Chart(document.getElementById("chartjs-4"), {
+                                    "type": "doughnut",
+                                    "data": {
+                                        "labels": ["P1", "P2", "P3"],
+                                        "datasets": [{
+                                            "label": "Issues",
+                                            "data": [300, 50, 100],
+                                            "backgroundColor": ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 205, 86)"]
+                                        }]
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Graph Card-->
+                </div>
+
+                    <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+                        <!--Table Card-->
+                        <div class="bg-white border-transparent rounded-lg shadow-xl">
+                            <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
+                                <h2 class="font-bold uppercase text-gray-600">Graph</h2>
+                            </div>
+                            <div class="p-5">
+                                <table class="w-full p-5 text-gray-700">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-left text-blue-900">Name</th>
+                                        <th class="text-left text-blue-900">Side</th>
+                                        <th class="text-left text-blue-900">Role</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr>
+                                        <td>Obi Wan Kenobi</td>
+                                        <td>Light</td>
+                                        <td>Jedi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Greedo</td>
+                                        <td>South</td>
+                                        <td>Scumbag</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Darth Vader</td>
+                                        <td>Dark</td>
+                                        <td>Sith</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <p class="py-2"><a href="#">See More issues...</a></p>
+
+                            </div>
+                        </div>
+                        <!--/table Card-->
+                    </div>
+
+                <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+                    <!--Advert Card-->
+                    <div class="bg-white border-transparent rounded-lg shadow-xl">
+                        <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
+                            <h2 class="font-bold uppercase text-gray-600">Advert</h2>
+                        </div>
+                        <div class="p-5 text-center">
+
+
+                            <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CK7D52JJ&placement=wwwtailwindtoolboxcom" id="_carbonads_js"></script>
+
+
+                        </div>
+                    </div>
+                    <!--/Advert Card-->
+                </div>
+
+
+                </div>
+</div>
+
+<script>
+
+
+const openModalButtons = document.querySelectorAll('[data-modal-target]')
+const closeModalButtons = document.querySelectorAll('[data-close-button]')
+const overlay = document.getElementById('overlay')
+
+openModalButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const modal = document.querySelector(button.dataset.modalTarget)
+    openModal(modal)
+  })
+})
+
+overlay.addEventListener('click', () => {
+  const modals = document.querySelectorAll('.modal.active')
+  modals.forEach(modal => {
+    closeModal(modal)
+  })
+})
+
+closeModalButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const modal = button.closest('.modal')
+    closeModal(modal)
+  })
+})
+
+function openModal(modal) {
+  if (modal == null) return
+  modal.classList.add('active')
+  overlay.classList.add('active')
+}
+
+function closeModal(modal) {
+  if (modal == null) return
+  modal.classList.remove('active')
+  overlay.classList.remove('active')
+}
+
+
+</script>
+{% endblock content %}
+
+
+
+
+
+
+

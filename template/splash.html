@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medibox</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/splash.css')}}">
+    <script src = "{{url_for('static', filename='js/splash.js')}}" ></script>
+
+
+</head>
+<body>
+    <center>
+        <div class="intro">
+            <h1 class="logo-header">
+                <span class="logo">
+                    <img src="static/images/pills.png" style="width: 15%; height: 20%; margin: 15% 2% 0 0" align="center"/>
+                    <img src="static/images/graph.png" style="width: 20%; height: 20%; margin-top: 2%" align="center"/>
+                    <img src="static/images/map.png" style="width: 15%; height: 15%; margin: 15% 2% 0 0" align="center"/>
+                </span>
+                <div style="display:flex">
+                    <span class="logo"><img src="static/images/logo1.png" style="width: 30%; height: 80%; margin-bottom: 5%" align="center"/> </span>
+                </div>
+            </h1>
+    </div>
+    </center>
+</body>
+</html>
+
+<script>
+let intro = document.querySelector('.intro');
+let logo = document.querySelector('.logo-header');
+let logoSpan = document.querySelectorAll('.logo');
+
+
+window.addEventListener('DOMContentLoaded',()=>{
+    setTimeout(()=> {
+        logoSpan.forEach((span, idx) => {
+            setTimeout(()=>{
+                span.classList.add('active');
+            },(idx + 1 ) * 400)
+        });
+
+        setTimeout (()=> {
+            logoSpan.forEach((span, idx) => {
+                setTimeout(()=>{
+                    span.classList.remove('active');
+                    span.classList.add('fade');
+                },(idx + 1 ) * 50)
+            });
+        }, 2000);
+
+        setTimeout (()=> {
+            intro.style.top='-100vh';
+        }, 2300);
+
+          setTimeout(function(){
+            window.location.href = '{{url_for('home')}}';
+        }, 3100);
+})
+})
+</script>

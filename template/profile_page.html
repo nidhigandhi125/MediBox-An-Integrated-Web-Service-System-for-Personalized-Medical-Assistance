@@ -1,0 +1,207 @@
+{% extends "layout.html" %}
+{% block head %}
+ <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Personal Profile</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/> <!--Replace with your tailwind.css once created-->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
+<!--    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/profile.css')}}">
+
+{% endblock %}
+{% block content %}
+
+
+
+ <div class="bg-gray-800 pt-3">
+
+                    <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h1 class="font-bold pl-2">Profile
+                                <label class="btn btn-primary "  style="float:right; padding-right:20px">
+
+  <div id="overlay"></div>
+
+                                </label>
+
+                        </h1>
+                    </div>
+</div>
+ {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+            {% for msg in msgs %}
+                <p style="color: #375234; border:1px solid #375234;">{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<!--<div class=" flex flex-wrap">-->
+
+<!--                    <div class = " w-full md:w-1/2 xl:w-1/3 p-6" style="margin-left: -6px">-->
+<!--     <div class = "profile_img">-->
+<!--         <img class="rounded-circle mt-5" style = "margin-left = 150px" width="150px" src="{{url_for('static', filename= avatar)}} ">-->
+<!--         <span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span>-->
+<!--         <span> </span>-->
+<!--     </div>-->
+
+
+<div class = "flex flex-wrap">
+	<div class="flex-auto row">
+	  <div class="profile" >
+          <div>
+                <div class="">
+                    <!-- Profile picture image-->
+                    <img class= "image" src="{{url_for('static', filename= avatar)}}" alt="">
+                </div>
+          </div>
+          <div class="profile_card">
+            <div class="card">
+            <div class="card-body">
+
+                    <form class ="form" method="post">
+                         <i class="fa fa-edit js-toggleForm c-link"></i>
+                        <!-- Form Group (username)-->
+                       <table>
+                            <tbody>
+                                <tr>
+                                    <td>Name :</td>
+                                    <td><input class="input" type="text" name="name" value="{{current_user.name}}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Email :</td>
+                                    <td><input class="input" type="email" name="email" value="{{current_user.email}}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Mobile Number :</td>
+                                    <td><input class="input" type="tel" maxlength="12" name="mobile" value="{{current_user.mobile}}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Birthday :</td>
+                                    <td><input class="input" type="date" name="birthday" value="{{current_user.birthday}}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Gender :</td>
+                                    <td><select class = "input1" name="gender">
+                                    <option value = "male">male</option>
+                                    <option value = "female">female</option>
+                                    </select></td>
+                                </tr>
+                                <tr>
+                                    <td>Height :</td>
+                                    <td><input class="input" type="text" name="height" value="{{current_user.height}}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Weight :</td>
+                                    <td><input class="input" type="text" name="weight" value="{{current_user.weight}}"></td>
+                                </tr>
+
+                                <tr class = "status">
+                                    <td> New Password :</td>
+                                    <td><input class="input" type="password" name="new_password"></td>
+                                </tr>
+                                <tr class = "status">
+                                    <td>Confirm Password :</td>
+                                    <td><input class="input" type="password" name="password_cnf"></td>
+                                </tr>
+
+                            </tbody>
+                       </table>
+
+                        <!-- Save changes button-->
+<!--                        <button class="btn btn-primary" type="button">Save changes</button>-->
+                        <button  class  = "profile_submit" type="submit" disabled> Submit </button>
+                    </form>
+            </div>
+          </div>
+          </div>
+  	  </div>
+	</div>
+</div>
+
+
+
+<script>
+
+
+const openModalButtons = document.querySelectorAll('[data-modal-target]')
+const closeModalButtons = document.querySelectorAll('[data-close-button]')
+const overlay = document.getElementById('overlay')
+
+openModalButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const modal = document.querySelector(button.dataset.modalTarget)
+    openModal(modal)
+  })
+})
+
+overlay.addEventListener('click', () => {
+  const modals = document.querySelectorAll('.modal.active')
+  modals.forEach(modal => {
+    closeModal(modal)
+  })
+})
+
+closeModalButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const modal = button.closest('.modal')
+    closeModal(modal)
+  })
+})
+
+function openModal(modal) {
+  if (modal == null) return
+  modal.classList.add('active')
+  overlay.classList.add('active')
+}
+
+function closeModal(modal) {
+  if (modal == null) return
+  modal.classList.remove('active')
+  overlay.classList.remove('active')
+}
+
+
+var form_ele = '.form';
+
+// make eveything disabled
+var disableFormEdit = function(selector){
+  $(selector).removeClass('form--enabled').addClass('form--disabled');
+	$(selector + ' input, ' + selector + ' select, ' + selector + ' button').prop('disabled', true);
+}
+
+
+// make eveything enabled
+var enableFormEdit = function(selector){
+	$(selector + ' input, ' + selector + ' select, ' + selector + ' button ').prop('disabled', false);
+  $(selector).removeClass('form--disabled').addClass('form--enabled');
+}
+
+
+disableFormEdit(form_ele);
+
+
+$('.js-toggleForm').click(function(){
+   // get the status of form
+  var form_status = $(form_ele).hasClass('form--disabled') ? 'disabled' : 'enabled';
+
+  // check if disabled or enabled
+  switch (form_status){
+    case 'disabled':
+      enableFormEdit(form_ele);
+      $(this).text('undo')
+      break;
+    case 'enabled':
+      disableFormEdit(form_ele);
+      $(this).text('')
+      break;
+  }
+});
+
+
+</script>
+{% endblock content %}

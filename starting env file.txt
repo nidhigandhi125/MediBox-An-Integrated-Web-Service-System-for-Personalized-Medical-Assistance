@@ -1,0 +1,4 @@
+source .env/bin/activate
+  background: #E9F0FF;
+
+query = query.select_from(census.join(state_fact, census.columns.state == state_fact.columns.name))

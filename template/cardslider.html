@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Search YouTube</title>
+
+    <!-- Bootstrap core CSS -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+    <script src = "{{url_for('static', filename='js/cardslider.js' )}}" ></script>
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/cardslider.css') }}" rel="stylesheet">
+  </head>
+  <body>
+
+<div class="carousel">
+  <div class="carousel-cell"><img src="https://emrekaya1.b-cdn.net/p1.jpg" class="p"><p class= "n">Eddie Kinsella</p>              <p class= "b">Call</p> <p class="content"></p></div>
+  <div class="carousel-cell"><img src="https://emrekaya1.b-cdn.net/p2.jpg" class="p"><p class= "n">Harrison Benac</p>              <p class= "b">Call</p></div>
+  <div class="carousel-cell"><img src="https://emrekaya1.b-cdn.net/p3.jpg" class="p"><p class= "n">Sean Kingston</p>              <p class= "b">Call</p></div>
+  <div class="carousel-cell"><img src="https://emrekaya1.b-cdn.net/p4.jpg" class="p"><p class= "n">Hayden Kaupu</p>              <p class= "b">Call</p></div>
+  <div class="carousel-cell"><img src="https://emrekaya1.b-cdn.net/p5.jpg" class="p"><p class= "n">Franklin Tudor</p>              <p class= "b">Call</p></div>
+  <div class="carousel-cell"><img src="https://emrekaya1.b-cdn.net/p6.jpg" class="p"><p class= "n">Herbert Simpson</p>              <p class= "b">Call</p></div>
+  <div class="carousel-cell"><img src="https://emrekaya1.b-cdn.net/p7.jpg" class="p"><p class= "n">Shaun Coleman</p>              <p class= "b">Call</p></div>
+</div>
+  </body>
+
+  <script>
+    $(document).ready(function(){
+      $(".b").click(function(){
+          $(this).toggleClass("b");
+          $(this).toggleClass("b-selected");
+       });
+});
+
+var elem = document.querySelector('.carousel');
+var flkty = new Flickity( elem, {
+  // options
+  cellalign: 'right',
+  pageDots: false,
+  groupCells: '20%',
+  selectedAttraction: 0.03,
+  friction: 0.15
+});
+var flkty = new Flickity( '.carousel', {
+  // options
+});
+
+  </script>
+</html>
+
