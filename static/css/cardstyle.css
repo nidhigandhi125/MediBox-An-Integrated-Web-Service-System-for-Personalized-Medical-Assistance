@@ -1,0 +1,19 @@
+.row > :nth-child(2n) {
+  border-radius: 20px;
+  background: linear-gradient(to bottom, #2563E8, #DAE9FE);
+  border-color: #2563E8
+}
+
+.row > :nth-child(2n + 1) {
+  border-radius: 20px;
+  background: linear-gradient(to bottom, #2563E8, #DAE9FE);
+  border-color: #2563E8
+}
+
+.row > :nth-child(2n + 2) {
+  border-radius: 20px;
+  background: #9b479f;
+}
+
+
+

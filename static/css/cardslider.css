@@ -1,0 +1,130 @@
+ /* no circle */
+.flickity-button {
+    
+  background: transparent;
+}
+.flickity-button:hover {
+    
+  background: transparent;
+  color: black;
+}
+
+.flickity-prev-next-button {
+  width: 100px;
+  height: 100px;
+}
+.flickity-button-icon {
+  fill: white;
+}
+.flickity-button:disabled {
+  display: none;
+}
+
+    
+.carousel {
+  font-family: Arial, Helvetica, sans-serif;
+  margin:auto;
+  margin-top: 7%;
+  max-width: 780px;
+  height: 380px;
+  border-radius: 20%;
+}
+.carousel-cell {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  float: right;
+  max-width: 501px;
+  width: 100%; /* full width */
+  height: 90%; /* height of carousel */
+  margin-right: 10px;
+  border-radius: 15px;
+  counter-increment: carousel-cell;
+  transition: all .3s ease;
+  opacity: 0.3;
+  filter: blur(6px);
+
+}
+  .carousel-cell.is-selected {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+    /* name */
+.carousel-cell .n {
+  font-size: 16px;
+  margin-top: 15px;
+  text-align: center;
+  color:black;
+  counter-increment: carousel-cell;
+}
+
+    /* button */
+.carousel-cell .b {
+  cursor: pointer;
+  margin: auto;
+  width: 180px;
+  padding: 1px;
+  background: green;
+  border: 1px solid green;
+  border-radius: 15px;
+  font-size: 15px;
+  color: white;
+  text-align: center;
+  counter-increment: carousel-cell;
+  transition: all .3s ease;
+}
+
+ /* picture */
+.carousel-cell .p {
+  border-radius: 15px;
+  width: 201px;
+  height: 250px;
+  counter-increment: carousel-cell;
+}
+
+.carousel-cell .b:hover {
+  background: #00e509;
+  transform: scale(1.03);
+  font-size: 16px;
+}
+
+.carousel-cell .b:active {
+  background: white;
+  color: green;
+  transform: scale(0.9);
+  font-size: 16px;
+}
+
+.carousel-cell .b-selected {
+  cursor: pointer;
+  margin: auto;
+  width: 180px;
+  padding: 1px;
+  border: 1px solid green;
+  border-radius: 15px;
+  font-size: 15px;
+  color: green;
+  text-align: center;
+  counter-increment: carousel-cell;
+  transition: all .3s ease;
+}
+
+.profile_submit {
+  color: black;
+  border: 2px solid black;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+  width: 50%;
+  padding: 9px 15px;
+  border-radius: 25px
+}
+.profile_submit:hover {
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+  background-color: black;
+  color: white;
+  }
+
